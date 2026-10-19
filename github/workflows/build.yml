@@ -1,0 +1,28 @@
+name: Compile Stardew Mod
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Allows you to manually trigger a build anytime
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Compile Mod
+      run: dotnet build -c Release
+
+    - name: Upload Compiled DLL
+      uses: actions/upload-artifact@v4
+      with:
+        name: CustomInteractionMod-Compiled
+        path: bin/Release/net8.0/CustomInteractionMod.dll
